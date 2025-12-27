@@ -1,0 +1,34 @@
+# Environment
+.env
+venv/
+env/
+*.pyc
+__pycache__/
+
+# Database
+data/applications.db
+data/applications.db-journal
+
+# Logs
+data/logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Personal data
+cv/*.pdf
+!cv/README.md
+config/profile.yaml
+
+# Temporary
+*.tmp
+temp/
+job/

@@ -1,0 +1,121 @@
+{
+  "servers": {
+    "apify_career_sites": {
+      "type": "http",
+      "url": "https://apify.com/fantastic-jobs/career-site-job-listing-api/api/mcp",
+      "enabled": true,
+      "auth_type": "bearer",
+      "auth_token_env": "APIFY_API_TOKEN",
+      "description": "Apify Career Site Jobs - 125k+ companies, 37 ATS platforms",
+      "capabilities": [
+        "search_jobs",
+        "filter_easy_apply"
+      ],
+      "platforms": [
+        "workday",
+        "greenhouse",
+        "ashby",
+        "lever",
+        "rippling",
+        "successfactors",
+        "icims"
+      ],
+      "features": {
+        "companies": "125000+",
+        "ats_platforms": 37,
+        "fields_per_job": 60,
+        "ai_enriched": true,
+        "linkedin_data": true
+      }
+    },
+    "apify_linkedin": {
+      "type": "http",
+      "url": "https://apify.com/apify/linkedin-jobs-scraper/api/mcp",
+      "enabled": true,
+      "auth_type": "bearer",
+      "auth_token_env": "APIFY_API_TOKEN",
+      "description": "Apify LinkedIn Jobs Scraper with Easy Apply filter",
+      "capabilities": [
+        "search_jobs",
+        "filter_easy_apply",
+        "get_job_details"
+      ],
+      "platforms": ["linkedin"],
+      "features": {
+        "easy_apply_filter": true,
+        "full_job_details": true,
+        "company_data": true
+      }
+    },
+    "apify_indeed": {
+      "type": "http",
+      "url": "https://apify.com/misceres/indeed-scraper/api/mcp",
+      "enabled": true,
+      "auth_type": "bearer",
+      "auth_token_env": "APIFY_API_TOKEN",
+      "description": "Apify Indeed Jobs Scraper - includes UK Indeed support",
+      "capabilities": [
+        "search_jobs",
+        "get_job_details"
+      ],
+      "platforms": ["indeed"],
+      "features": {
+        "global_coverage": true,
+        "uk_support": true,
+        "salary_data": true,
+        "company_reviews": true
+      }
+    },
+    "apify_reed": {
+      "type": "http",
+      "url": "https://apify.com/lexis-solutions/reed-co-uk-scraper/api/mcp",
+      "enabled": true,
+      "auth_type": "bearer",
+      "auth_token_env": "APIFY_API_TOKEN",
+      "description": "Reed.co.uk UK Jobs Scraper - Major UK job site",
+      "capabilities": [
+        "search_jobs",
+        "filter_by_location",
+        "filter_by_salary"
+      ],
+      "platforms": ["reed"],
+      "features": {
+        "uk_only": true,
+        "salary_data": true,
+        "fast_extraction": true
+      }
+    },
+    "apify_totaljobs": {
+      "type": "http",
+      "url": "https://apify.com/lexis-solutions/totaljobs-scraper/api/mcp",
+      "enabled": true,
+      "auth_type": "bearer",
+      "auth_token_env": "APIFY_API_TOKEN",
+      "description": "Totaljobs UK Jobs Scraper - UK's largest hiring platform (280k+ jobs)",
+      "capabilities": [
+        "search_jobs",
+        "filter_by_location",
+        "filter_by_salary"
+      ],
+      "platforms": ["totaljobs"],
+      "features": {
+        "uk_only": true,
+        "jobs_count": "280000+",
+        "monthly_visits": "20M",
+        "comprehensive_data": true
+      }
+    }
+  },
+  "priority": [
+    "apify_linkedin",
+    "apify_reed",
+    "apify_totaljobs",
+    "apify_indeed",
+    "apify_career_sites"
+  ],
+  "notes": {
+    "apify_setup": "Get free API token from https://apify.com - includes free tier",
+    "easy_apply": "apify_linkedin and apify_career_sites support easy apply filtering",
+    "no_local_servers": "All servers are hosted - no local installation needed"
+  }
+}

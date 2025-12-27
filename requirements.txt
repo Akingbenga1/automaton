@@ -1,0 +1,29 @@
+# Core dependencies
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+pydantic>=2.5.0
+sqlalchemy>=2.0.0
+
+# Claude AI SDK
+anthropic>=0.39.0
+
+# MCP Client
+mcp>=0.9.0
+
+# Job matching and NLP
+scikit-learn>=1.3.0
+nltk>=3.8.1
+
+# HTTP requests
+requests>=2.31.0
+httpx>=0.25.0
+
+# Date/time handling
+python-dateutil>=2.8.2
+
+# Data handling
+pandas>=2.1.0
+
+# CLI
+click>=8.1.7
+rich>=13.7.0
