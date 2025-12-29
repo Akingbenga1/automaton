@@ -24,6 +24,7 @@ from src.job_filter import JobFilter
 from src.applicator import JobApplicator
 from src.database import ApplicationDatabase
 from src.claude_agent import ClaudeAgent
+from src.email_sender import EmailSender
 
 
 console = Console()
@@ -416,6 +417,21 @@ def main():
     except Exception as e:
         logger.error(f"Failed to save results to {results_file}: {e}")
         console.print(f"[yellow]Warning: Could not save results to {results_file}: {e}[/yellow]")
+
+    # Send email with results
+    logger.info("Attempting to send email with results")
+    try:
+        email_sender = EmailSender()
+        email_sent = email_sender.send_results_email(results_file, len(filtered_jobs))
+        if email_sent:
+            logger.info("Email sent successfully")
+            console.print(f"[green]Results emailed to configured address[/green]")
+        else:
+            logger.info("Email not sent (disabled or not configured)")
+    except Exception as e:
+        logger.error(f"Error during email sending: {e}")
+        # Don't fail the whole process if email fails
+        console.print(f"[yellow]Warning: Could not send email: {e}[/yellow]")
 
     logger.info(f"Job search process completed successfully. Total jobs found: {len(filtered_jobs)}")
     console.print(f"\n[bold yellow]IMPORTANT: This tool only searches and displays jobs.[/bold yellow]")

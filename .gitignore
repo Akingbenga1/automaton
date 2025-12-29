@@ -32,3 +32,5 @@ config/profile.yaml
 *.tmp
 temp/
 job/
+results.md
+app.log
