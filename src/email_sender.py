@@ -101,7 +101,9 @@ Job Search Automation System
             # Send email via SMTP
             logger.info(f"Sending email to {self.to_email} via {self.smtp_host}:{self.smtp_port}")
             
-            with smtplib.SMTP(self.smtp_host, self.smtp_port) as server:
+            # Set timeout for SMTP connection (30 seconds)
+            timeout = 30
+            with smtplib.SMTP(self.smtp_host, self.smtp_port, timeout=timeout) as server:
                 if self.smtp_use_tls:
                     server.starttls()
                 
