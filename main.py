@@ -9,8 +9,9 @@ import sys
 import argparse
 import yaml
 import logging
+import random
 from pathlib import Path
-from typing import Dict
+from typing import Dict, List, Optional
 from datetime import datetime
 from dotenv import load_dotenv
 from rich.console import Console
@@ -58,6 +59,65 @@ def setup_logging():
     logger.info(f"Logging initialized. Log file: {log_file}")
     
     return logger
+
+
+def apply_randomization(args: argparse.Namespace) -> argparse.Namespace:
+    """
+    Apply randomization to arguments based on randomization flags.
+    Explicit argument values take precedence over randomization.
+    
+    Args:
+        args: Parsed arguments namespace
+        
+    Returns:
+        Modified arguments namespace with randomized values applied
+    """
+    logger = logging.getLogger(__name__)
+    available_platforms = ["linkedin", "indeed", "career_sites", "reed", "totaljobs"]
+    
+    # Check which arguments were explicitly provided by checking sys.argv
+    argv_str = ' '.join(sys.argv)
+    
+    # If --randomize is set, enable all randomization flags
+    if args.randomize:
+        logger.info("Randomize flag enabled - randomizing all configurable arguments")
+        args.randomize_platforms = True
+        args.randomize_max_results = True
+        args.randomize_max_days = True
+        args.randomize_easy_apply = True
+    
+    # Randomize platforms (only if not explicitly provided)
+    if args.randomize_platforms:
+        if '--platforms' not in argv_str:
+            num_platforms = random.randint(1, min(3, len(available_platforms)))
+            selected_platforms = random.sample(available_platforms, num_platforms)
+            args.platforms = ",".join(selected_platforms)
+            logger.info(f"Randomized platforms: {args.platforms}")
+        else:
+            logger.info(f"Platforms explicitly set, skipping randomization: {args.platforms}")
+    
+    # Randomize max-results (only if not explicitly provided)
+    if args.randomize_max_results:
+        if '--max-results' not in argv_str:
+            args.max_results = random.randint(10, 100)
+            logger.info(f"Randomized max-results: {args.max_results}")
+        else:
+            logger.info(f"Max-results explicitly set, skipping randomization: {args.max_results}")
+    
+    # Randomize max-days (only if not explicitly provided)
+    if args.randomize_max_days:
+        if '--max-days' not in argv_str:
+            args.max_days = random.randint(1, 30)
+            logger.info(f"Randomized max-days: {args.max_days}")
+        else:
+            logger.info(f"Max-days explicitly set, skipping randomization: {args.max_days}")
+    
+    # Randomize easy-apply-only (always randomize if flag is set, user can't easily override)
+    if args.randomize_easy_apply:
+        args.easy_apply_only = random.choice([True, False])
+        logger.info(f"Randomized easy-apply-only: {args.easy_apply_only}")
+    
+    return args
 
 
 def load_profile(config_path: str = "config/profile.yaml") -> dict:
@@ -214,7 +274,41 @@ def main():
         help="Path to profile config file"
     )
 
+    # Randomization arguments
+    parser.add_argument(
+        "--randomize",
+        action="store_true",
+        help="Randomize all configurable arguments (platforms, max-results, max-days, easy-apply)"
+    )
+
+    parser.add_argument(
+        "--randomize-platforms",
+        action="store_true",
+        help="Randomly select platforms from available options"
+    )
+
+    parser.add_argument(
+        "--randomize-max-results",
+        action="store_true",
+        help="Randomly select max-results between 10 and 100"
+    )
+
+    parser.add_argument(
+        "--randomize-max-days",
+        action="store_true",
+        help="Randomly select max-days between 1 and 30"
+    )
+
+    parser.add_argument(
+        "--randomize-easy-apply",
+        action="store_true",
+        help="Randomly set easy-apply-only to True or False"
+    )
+
     args = parser.parse_args()
+    
+    # Apply randomization logic (must be done before using args)
+    args = apply_randomization(args)
     
     logger.info(f"Command line arguments: platforms={args.platforms}, max_results={args.max_results}, max_days={args.max_days}, easy_apply_only={args.easy_apply_only}")
 
